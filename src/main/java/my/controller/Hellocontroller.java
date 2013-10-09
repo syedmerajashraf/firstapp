@@ -92,6 +92,7 @@ public @ResponseBody  String removeteacher(@RequestParam int id,@RequestParam St
 public @ResponseBody  Teacher addteacherforstudent(@RequestParam int id,@RequestParam String email){
 	helloService.teacherforstudent(id,email);
 	return null;
+	
 }
 
 
