@@ -284,15 +284,7 @@ $.get( "getstudent","id="+selected, function( data ) {
     		    var id   =$("#slist").val();
     		    alert(id+"  "+ email);
     		    $.get( "addteacherforstudent","id="+id+"&email="+email, function( teacher ) {
-    		        alert(data);
-    		        var newTeacher = '<tr>
-					    		        <td>
-					    		        	<span id="name">ajeet</span>
-					    		        </td>
-					    		        <td>
-					    		        <span id="email">ajeet@talentica.com</span>
-					    		        </td>
-					    		        </tr>
+    		       
     		        addTeacherBtn.parent().parent().remove();
 		         	console.log(btn.parent());
     		        });
