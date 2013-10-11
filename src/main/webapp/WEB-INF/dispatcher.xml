@@ -1,53 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+<beans:beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+
+http://www.springframework.org/schema/tx
+
+http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+
+http://www.springframework.org/schema/util 
+
+http://www.springframework.org/schema/util/spring-util-3.1.xsd
+
+http://www.springframework.org/schema/task
+
+http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 
 
-	<context:component-scan base-package="my" />
-	<!-- <bean id="jacksonObjectMapper" class="my.json.HibernateAwareObjectMapper" /> -->
+			<beans:import resource="database/database.xml" />
 
-	<mvc:annotation-driven/>
-		<!-- <mvc:message-converters>
-			<bean id="jacksonMessageConverter"
-				class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-				<property name="objectMapper" ref="jacksonObjectMapper" />
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven> -->
-	
-	<context:annotation-config />
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/pages/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+			<beans:bean
+						class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
-	 <bean id="helloService" class="my.service.HelloService">
-	</bean> 
-    <bean id="utility" class="my.utility.ServiceUtility">
-	</bean>
-	<bean class="my.controller.ByeController">
-		<property name="helloService" ref="helloService" />
-	</bean>
 
-</beans>
-       
+	 		<beans:bean id="jacksonObjectMapper"
+						class="com.fidelis.k2.common.utils.HibernateAwareObjectMapper" /> 
+
+
+			<mvc:annotation-driven>
+
+					<mvc:message-converters>
+
+			 				<beans:bean id="jacksonMessageConverter"
+										class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+
+											<beans:property name="objectMapper" ref="jacksonObjectMapper" />
+
+							</beans:bean>
+
+					</mvc:message-converters>  
+
+			</mvc:annotation-driven>
+
+
+			<!-- Enable declarative transaction management for the methods annotated 
+				with @Transactional -->
+		
+			<tx:annotation-driven  />
+
+
+			<context:component-scan base-package="com.fidelis.k2" />
+
+			<context:annotation-config />
+
+
+
+			<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+				in the /WEB-INF/views directory -->
+		
+			<beans:bean
+		
+				class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		
+				<beans:property name="prefix" value="/WEB-INF/pages/" />
+		
+				<beans:property name="suffix" value=".jsp" />
+		
+			</beans:bean>
+	 
+	          <!-- beans to be used in app -->
+			 <beans:bean id="helloService" class="com.fidelis.k2.bo.HelloService">
+			 </beans:bean>
+			 
+			 
+			 <beans:bean id="utility" class="my.utility.ServiceUtility">
+		     </beans:bean>
+		     
+		     <beans:bean id="studentBo" class="com.fidelis.k2.bo.StudentBoImpl">
+			 </beans:bean>
+			
+			<!-- <beans:bean
+				class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+				<beans:property name="prefix">
+					<beans:value>/WEB-INF/pages/</beans:value>
+				</beans:property>
+				<beans:property name="suffix">
+					<beans:value>.jsp</beans:value>
+				</beans:property>
+			</beans:bean>
+			 -->
+
+</beans:beans>

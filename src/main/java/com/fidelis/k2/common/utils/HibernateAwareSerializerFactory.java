@@ -1,4 +1,4 @@
-package my.json;
+package com.fidelis.k2.common.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;

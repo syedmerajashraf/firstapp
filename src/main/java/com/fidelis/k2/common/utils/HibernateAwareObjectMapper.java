@@ -1,4 +1,4 @@
-package my.json;
+package com.fidelis.k2.common.utils;
 
 /*
 * Copyright (c) 2011 Fidelis, Inc. All Rights Reserved.

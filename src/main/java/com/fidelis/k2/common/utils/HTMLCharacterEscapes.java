@@ -1,4 +1,4 @@
-package my.json;
+package com.fidelis.k2.common.utils;
 
 import org.codehaus.jackson.SerializableString;
 import org.codehaus.jackson.io.CharacterEscapes;

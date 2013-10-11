@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import my.controller.Student;
-import my.controller.Teacher;
+import com.fidelis.k2.entity.Student;
+import com.fidelis.k2.entity.Teacher;
 
 
 public class ServiceUtility {
 	
-    public static  Map<Integer, Student> studentdb = new HashMap<Integer, Student>();
+   /* public static  Map<Integer, Student> studentdb = new HashMap<Integer, Student>();
     public static  Map<Integer, Teacher> teacherdb = new HashMap<Integer, Teacher>();
     
     
@@ -39,6 +39,6 @@ public class ServiceUtility {
     	teacherdb.put(1, t1);
     	teacherdb.put(2, t2);
     	teacherdb.put(3, t3);
-    }
+    }*/
 
 }
