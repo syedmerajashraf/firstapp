@@ -2,6 +2,7 @@ package com.fidelis.k2.bo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,31 @@ public class StudentBoImpl implements StudentBo{
 		student.getTeachers().remove(teacher);
 		TeacherDto teacherDto=new TeacherDto().fillTeacherData(teacher);
 		return teacherDto;
+	}
+
+	@Transactional
+	@Override
+	public List<StudentDto> notAddedStudents(Set<StudentDto> students) {
+		int flag;
+		List<Student> allstudentList=studentDao.findAll();
+		List<StudentDto> studenttobeadded=new ArrayList<StudentDto>();
+		for(Student student:allstudentList){
+			 flag=0;
+			 StudentDto temp_student=new StudentDto();
+			 for(StudentDto studentDto:students){
+				 if(studentDto.getId()==student.getId()){
+					 flag=1;
+					 break;
+				}
+		     }
+			if(flag==0){
+				temp_student.fillStudentData(student);
+				studenttobeadded.add(temp_student);
+				
+			}
+		 
+	     
+	     }
+		return studenttobeadded;
 	}
 } 

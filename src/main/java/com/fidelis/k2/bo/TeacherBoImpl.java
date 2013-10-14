@@ -1,7 +1,6 @@
 package com.fidelis.k2.bo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -66,10 +65,39 @@ public class TeacherBoImpl implements TeacherBo{
 	@Transactional
 	@Override
 	public TeacherDto saveteacher(Teacher teacher) {
-		
 		teacherDao.save(teacher);
 		return new TeacherDto(teacher);
-		
+	}
+
+	@Transactional
+	@Override
+	public TeacherDto getTeacherById(int teacherId) {
+		Teacher teacher = teacherDao.findById(teacherId);
+    	TeacherDto teacherDto = new TeacherDto(teacher);
+		return teacherDto;
 		
 	}
+
+	@Transactional
+	@Override
+	public StudentDto addstudentforteacher(int studentId, int teacherId) {
+		Student student = studentDao.findById(studentId);
+		Teacher teacher = teacherDao.findById(teacherId);
+		student.addTeacher(teacher);
+		StudentDto studentDto=new StudentDto().fillStudentData(student);
+		return studentDto;
+	}
+
+	@Transactional
+	@Override
+	public StudentDto removestudent(int studentId, int teacherId) {
+		Student student = studentDao.findById(studentId);
+		Teacher teacher = teacherDao.findById(teacherId);
+		student.getTeachers().remove(teacher);
+		StudentDto studentDto=new StudentDto().fillStudentData(student);
+		return studentDto;
+		
+	}
+
+	
 }

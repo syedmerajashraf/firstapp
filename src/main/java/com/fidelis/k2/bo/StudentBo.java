@@ -1,6 +1,7 @@
 package com.fidelis.k2.bo;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fidelis.k2.entity.Student;
 import com.fidelis.k2.model.StudentDto;
@@ -13,5 +14,6 @@ public interface StudentBo {
 	StudentDto getStudentById(Integer studentId);
 	TeacherDto addteacherforstudent(int studentId, int teacherId);
 	TeacherDto removeteacher(int studentId, int teacherId);
+	List<StudentDto> notAddedStudents(Set<StudentDto> students);
 
 }

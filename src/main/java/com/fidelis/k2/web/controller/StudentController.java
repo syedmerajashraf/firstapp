@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fidelis.k2.bo.StudentBo;
 import com.fidelis.k2.bo.TeacherBo;
 import com.fidelis.k2.entity.Student;
-import com.fidelis.k2.entity.Teacher;
 import com.fidelis.k2.model.CompleteStudentInfo;
 import com.fidelis.k2.model.StudentDto;
 import com.fidelis.k2.model.TeacherDto;
