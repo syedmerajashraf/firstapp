@@ -20,6 +20,7 @@ public class StudentDto {
 	private Set<TeacherDto> teachers;
 	
 	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -40,6 +41,9 @@ public class StudentDto {
 	}
 	public Set<TeacherDto> getTeachers() {
 		return teachers;
+	}
+	public void setTeachers(Set<TeacherDto> teachers) {
+		this.teachers = teachers;
 	}
 	
 	public StudentDto fillStudentData(Student student){

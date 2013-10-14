@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fidelis.k2.dao.StudentDao;
 import com.fidelis.k2.dao.TeacherDao;
@@ -24,18 +25,19 @@ public class TeacherBoImpl implements TeacherBo{
 	private StudentDao studentDao;
 	@Autowired
 	private TeacherDao teacherDao;
+	@Transactional
 	@Override
 	public List<TeacherDto> notAddedTeachers(Set<TeacherDto> teachers){
 		int flag;
 		List<Teacher> allteacherList=teacherDao.findAll();
 		List<TeacherDto> teachertobeadded=new ArrayList<TeacherDto>();
-		TeacherDto temp_teacher=new TeacherDto();
 		for(Teacher teacher:allteacherList){
 			 flag=0;
-			for(TeacherDto teacherDto:teachers){
-				if(teacherDto.getId()==teacher.getId()){
-					flag=1;
-							break;
+			 TeacherDto temp_teacher=new TeacherDto();
+			 for(TeacherDto teacherDto:teachers){
+				 if(teacherDto.getId()==teacher.getId()){
+					 flag=1;
+					 break;
 				}
 		     }
 			if(flag==0){
@@ -48,6 +50,8 @@ public class TeacherBoImpl implements TeacherBo{
 	     }
 		return teachertobeadded;
 	}
+	
+	@Transactional
 	@Override
 	public List<TeacherDto> getAllTeachers() {
 		List<Teacher> teacherList = teacherDao.findAll();
@@ -57,6 +61,15 @@ public class TeacherBoImpl implements TeacherBo{
     		teacherDtoList.add(teacherDto);
     	}
 		return teacherDtoList;
+		
+	}
+	@Transactional
+	@Override
+	public TeacherDto saveteacher(Teacher teacher) {
+		
+		teacherDao.save(teacher);
+		return new TeacherDto(teacher);
+		
 		
 	}
 }

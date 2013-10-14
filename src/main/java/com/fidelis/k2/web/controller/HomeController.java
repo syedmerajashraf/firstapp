@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fidelis.k2.bo.StudentBo;
 import com.fidelis.k2.bo.TeacherBo;
-import com.fidelis.k2.entity.Student;
 import com.fidelis.k2.model.StudentDto;
+import com.fidelis.k2.model.TeacherDto;
 
 @Controller
 @RequestMapping("/home")
@@ -25,8 +25,9 @@ public class HomeController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String hello(ModelMap model){
 		List<StudentDto> studentDtolist=studentBo.getAllStudents();
+		List<TeacherDto> teacherDtolist=teacherBo.getAllTeachers();
 		model.addAttribute("studentlist",studentDtolist);
-		model.addAttribute("message","hello world");
+		model.addAttribute("teacherlist",teacherDtolist);
 		return "hello";
 	}
 }

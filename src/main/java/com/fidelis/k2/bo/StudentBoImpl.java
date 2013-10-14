@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fidelis.k2.dao.StudentDao;
 import com.fidelis.k2.dao.TeacherDao;
 import com.fidelis.k2.entity.Student;
+import com.fidelis.k2.entity.Teacher;
 import com.fidelis.k2.model.StudentDto;
+import com.fidelis.k2.model.TeacherDto;
 
 @Service
 public class StudentBoImpl implements StudentBo{
@@ -48,4 +50,26 @@ public class StudentBoImpl implements StudentBo{
     	StudentDto studentDto = new StudentDto(student);
 		return studentDto;
 	}
-}
+
+	@Transactional
+	@Override
+	public TeacherDto addteacherforstudent(int studentId, int teacherId) {
+		
+		Student student = studentDao.findById(studentId);
+		Teacher teacher = teacherDao.findById(teacherId);
+		student.addTeacher(teacher);
+		TeacherDto teacherDto=new TeacherDto().fillTeacherData(teacher);
+		return teacherDto;
+		
+	}
+
+	@Transactional
+	@Override
+	public TeacherDto removeteacher(int studentId, int teacherId) {
+		Student student = studentDao.findById(studentId);
+		Teacher teacher = teacherDao.findById(teacherId);
+		student.getTeachers().remove(teacher);
+		TeacherDto teacherDto=new TeacherDto().fillTeacherData(teacher);
+		return teacherDto;
+	}
+} 

@@ -79,12 +79,7 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 			</beans:bean>
 	 
 	          <!-- beans to be used in app -->
-			 <beans:bean id="helloService" class="com.fidelis.k2.bo.HelloService">
-			 </beans:bean>
 			 
-			 
-			 <beans:bean id="utility" class="my.utility.ServiceUtility">
-		     </beans:bean>
 		     
 		     <beans:bean id="studentBo" class="com.fidelis.k2.bo.StudentBoImpl">
 			 </beans:bean>

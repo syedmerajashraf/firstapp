@@ -62,19 +62,18 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
                           <li><a href="#teacher" id="clickmeteacher">Teacher's Click Here</a></li>
                           <li><a href="#student" id="clickmestudent">Students Zone</a></li>
                      </ul>
-                     <p> ${message}</p>
-                </div>
+               </div>
                 <div id="teacher">
-                 <p style="{color: "red" }">Welcome Teachers</p>
+                 <p>Welcome Teachers</p>
                  <button id="new-teacher">Sign Up</button>
                  <select id="tlist">
-                        <c:forEach items="${teacher_db}" var="teacher" >
-            	           <option>${teacher.key}</option>
+                        <c:forEach items="${teacherlist}" var="teacher" >
+            	               <option>${teacher.name}</option>
                         </c:forEach>       	
                  </select>
                 </div>
                 <div id="student">
-                      <p style="{color: "red" }">Welcome Students</p>
+                      <p>Welcome Students</p>
                       <button id="new-student">Sign Up</button>
                       <select id="slist">
                              <c:forEach items="${studentlist}" var="student" >
@@ -83,6 +82,7 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
                       </select>
 
 			          <div id="maindiv" style="display: none">
+			                    <p>Student Info</p>
 								<table>
 									<th>Name</th>
 									<th>Email</th>
@@ -91,9 +91,13 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 										<td><span id="email"></span></td>
 									</tr>
 								</table>
+								<br/>
+								<p>Teachers You Are Enrolled With</p>
 								<table id="stlist">
 				
 								</table>
+								<br/>
+								<p>Teachers That Can Be Added</p>
 								<table id="teachertobeadded">
 				
 								</table>
@@ -149,6 +153,7 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 			buttons: {
 			"Create an account":function(){
 				var student = new Object();
+				var form=$( "#student-form" );
 				student.name=$( "#sname" ).val();
 				student.email=$("#semail").val();
 				
@@ -161,8 +166,9 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 					 dataType: "json",
 					 data:JSON.stringify(student),
 					 success : function(response){
-						 alert(response);
-						$(this).parent().dialog( "close" );
+						 alert(response.name+" added");
+						 $("#slist").append($('<option></option>').val(response.id).html(response.name));
+						 form.dialog( "close" );
 					}			 
 				 });
 				
@@ -184,14 +190,14 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 			buttons: {
 			"Create an account":function(){
 				var teacher = new Object();
-				teacher.tname=$( "#tname" ).val();
-				teacher.temail=$("#temail").val();
+				teacher.name=$( "#tname" ).val();
+				teacher.email=$("#temail").val();
 				alert(teacher.name+teacher.email);
 	
 				
 				
 				 $.ajax({
-					 url: 'newteacher',
+					 url: 'teacher/newteacher',
 					 type: 'POST',
 					 contentType: "application/json",
 					 dataType: "json",
@@ -223,18 +229,18 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 						
 						var selected=$(this).val();
 						$.get( "student/getstudent","studentId="+selected, function( data ) {
-		                                  alert(data.name+" "+data.email)
+		                                  alert(data.studentDto.name);
 										 $("#maindiv").css("display","block");
-										 $("#name").html(data.name);
-										 $("#email").html(data.email);
+										 $("#name").html(data.studentDto.name);
+										 $("#email").html(data.studentDto.email);
 										 $('table#stlist').empty();
 										 $('table#stlist').append("<th>ID</th><th>Name</th><th>Email</th>");
 		                                 var tr;
-		                                 for (var i = 0; i < data.teachers.length; i++) {
+		                                 for (var i = 0; i < data.studentDto.teachers.length; i++) {
 									    	 tr = $('<tr/>');
-									    	 tr.append("<td>" + data.teachers[i].id + "</td>");
-									         tr.append("<td>" + data.teachers[i].name + "</td>");
-									         tr.append("<td>" + data.teachers[i].email + "</td>");
+									    	 tr.append("<td>" + data.studentDto.teachers[i].id + "</td>");
+									         tr.append("<td>" + data.studentDto.teachers[i].name + "</td>");
+									         tr.append("<td>" + data.studentDto.teachers[i].email + "</td>");
 									         tr.append("<td><a name=\"remove_teacher\" href='#'>Remove</a></td>");
 									         $('table#stlist').append(tr);
 									     }
@@ -242,36 +248,35 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 								        $('#teachertobeadded').empty();
 								       $('#teachertobeadded').append("<th>ID</th><th>Name</th><th>Email</th>");
 								
-								     /*  for (var i = 0; i < data.teacher_to_be_added.length; i++) {
+								       for (var i = 0; i < data.teachers_to_be_added.length; i++) {
 								      	   tr = $('<tr/>');
-								      	   tr.append("<td>" + data.teacher_to_be_added[i].tid + "</td>");
-								           tr.append("<td>" + data.teacher_to_be_added[i].tname + "</td>");
-								           tr.append("<td>" + data.teacher_to_be_added[i].temail + "</td>");
+								      	   tr.append("<td>" + data.teachers_to_be_added[i].id + "</td>");
+								           tr.append("<td>" + data.teachers_to_be_added[i].name + "</td>");
+								           tr.append("<td>" + data.teachers_to_be_added[i].email + "</td>");
 								           tr.append("<td><a name=\"add_teacher\" href='#'>Add</a></td>");
 								           $('#teachertobeadded').append(tr);
-								       }  */
+								       } 
 						
 										$('[name=remove_teacher]').on('click', function(e) {
-										       alert("hiiii");
-									 	    var email=$(e.target).closest('tr').find("td:nth-child(2)").text();
-									 	    alert("hiiii"+email);
-									 	    var id   =$("#slist").val();
-									 	     
-									 	    $.get( "student/removeteacher","id="+id+"&email="+email, function( data ) {
-									 	        alert(data);
+											var removeTeacherBtn = $(this);
+									 	    var teacherid=$(e.target).closest('tr').find("td:nth-child(1)").text();
+									 	    var studentid   =$("#slist").val();
+									 	    $.get( "student/removeteacher","studentid="+studentid+"&teacherid="+teacherid, function( teacherDto ) {
+									 	        alert(teacherDto.id);
+									 	        removeTeacherBtn.parent().parent().remove();
+						    		            $('table#teachertobeadded').append("<tr><td>"+teacherDto.id+"</td><td>"+teacherDto.name+"</td><td>"+teacherDto.email+"</td>"+"<td><a name=\"add_teacher\" href='#'>Add</a></td></tr>");
 									 	        });
 									 	    
 									 	});
 	   	
 							    	 $('[name=add_teacher]').on('click', function(e) {
 							    		    var addTeacherBtn = $(this);
-							    		    var tid=$(e.target).closest('tr').find("td:nth-child(1)").text();
-							    		    var sid   =$("#slist").val();
-							    		    
-							    		    $.get( "student/addteacherforstudent","tid="+tid+"&sid="+sid, function( teacher ) {
-							    		       
-							    		        addTeacherBtn.parent().parent().remove();
-									         	console.log(addTeacherBtn.parent());
+							    		    var teacherid=$(e.target).closest('tr').find("td:nth-child(1)").text();
+							    		    var studentid   =$("#slist").val();
+							    		    $.get( "student/addteacherforstudent","teacherid="+teacherid+"&studentid="+studentid, function( teacherDto ) {
+							    		    	    alert(teacherDto.id);
+							    		            addTeacherBtn.parent().parent().remove();
+							    		            $('table#stlist').append("<tr><td>"+teacherDto.id+"</td><td>"+teacherDto.name+"</td><td>"+teacherDto.email+"</td></tr>");
 							    		        });
 							    		    
 							    		});
