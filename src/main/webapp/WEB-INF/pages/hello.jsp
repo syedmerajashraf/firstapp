@@ -194,6 +194,9 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 				</fieldset>
 			</form>
 	</div>
+	<div id="errorMessage">
+	 
+	</div>
 
 
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -240,16 +243,20 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 						 alert(response.name+" added");
 						 $("#clist").append($('<option></option>').val(response.id).html(response.name));
 						 form.dialog( "close" );
-					}			 
+						 console.log(this.response);
+					      }	,
+			          error:function(response){
+				                alert("hiii");
+				         }		 
 				 });
 				
 			} ,
 			Cancel: function() {
-			$( this ).dialog( "close" );
+				$( this ).dialog( "close" );
 			}
 			},
 			close: function() {
-			$( this ).dialog( "close" );
+				$( this ).dialog( "close" );
 			}
 			
 			});
@@ -264,8 +271,6 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 				var form=$( "#student-form" );
 				student.name=$( "#sname" ).val();
 				student.email=$("#semail").val();
-				
-				
 				
 				 $.ajax({
 					 url: 'student/newstudent',
@@ -298,12 +303,9 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 			buttons: {
 			"Create an account":function(){
 				var teacher = new Object();
-				var form=$( "#teacher-form" );
+				var form=$("#teacher-form");
 				teacher.name=$( "#tname" ).val();
 				teacher.email=$("#temail").val();
-				alert(teacher.name+teacher.email);
-	
-				
 				
 				 $.ajax({
 					 url: 'teacher/newteacher',
@@ -312,11 +314,24 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 					 dataType: "json",
 					 data:JSON.stringify(teacher),
 					 success : function(response){
+						 if(response==null){
+							 alert("adding new teacher failed");
+							 }
+						 else{
 						 alert(response.name+" added");
 						$("#tlist").append($('<option></option>').val(response.id).html(response.name));
+						    }
 						 form.dialog( "close" ); 
-						
-					}			 
+					     },
+					error: function(response){
+							//form.dialog('close');
+						    $( "#errorMessage" ).html(response.responseText);
+						    $( "#errorMessage" ).dialog();
+						    $( "#errorMessage").css("background","none repeat scroll 0 0 #808080");
+						    $( "#errorMessage").prev().children('button').css("position","absolute");
+						    $( "#errorMessage").prev().children('button').css("margin","107 116");
+						    
+						   }			 
 				 });
 				
 			} ,

@@ -2,7 +2,7 @@ package com.fidelis.k2.model;
 
 import java.util.List;
 
-public class CompleteStudentInfo {
+public class StudentInfoWrapper {
 	
 	
 	private StudentDto studentDto;

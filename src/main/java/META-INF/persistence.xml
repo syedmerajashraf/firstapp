@@ -4,6 +4,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 	  <class>com.fidelis.k2.entity.Student</class>
 	  <class>com.fidelis.k2.entity.Teacher</class>
+	  <class>com.fidelis.k2.entity.Coach</class>
 	  <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 	  <properties>
 	   <property name="hibernate.show_sql" value="true" />

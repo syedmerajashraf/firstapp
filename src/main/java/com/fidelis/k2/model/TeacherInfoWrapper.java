@@ -2,7 +2,7 @@ package com.fidelis.k2.model;
 
 import java.util.List;
 
-public class CompleteTeacherInfo {
+public class TeacherInfoWrapper {
 	private TeacherDto teacherDto;
 	private List<StudentDto> students_to_be_added;
 

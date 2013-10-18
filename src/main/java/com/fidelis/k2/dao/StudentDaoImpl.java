@@ -1,5 +1,6 @@
 package com.fidelis.k2.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fidelis.k2.entity.Student;
@@ -10,6 +11,8 @@ public class StudentDaoImpl  extends BaseDaoImpl<Student> implements StudentDao{
 	public StudentDaoImpl() {
 		super(Student.class);
 	}
-
+    
+	
+	
 	
 }

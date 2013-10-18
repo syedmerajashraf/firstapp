@@ -8,8 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="teacher")
@@ -25,11 +31,17 @@ public class Teacher {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="tid")
     private Integer id;
+    @NotEmpty
+    @NotNull
     @Column(name="tname")
     private String name;
+    @Email
+    @NotEmpty
+    @NotNull
     @Column(name="temail")
 	private String email;
-	@ManyToMany(mappedBy="teachers")
+	@ManyToMany//(mappedBy="teachers")
+	@JoinTable(name="student_teacher_mapping", joinColumns={@JoinColumn(name="tid")}, inverseJoinColumns={@JoinColumn(name="sid")})
 	private Set<Student> students;
 	
 	public Integer getId() {
