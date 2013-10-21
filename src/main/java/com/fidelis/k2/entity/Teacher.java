@@ -26,7 +26,6 @@ public class Teacher {
 		this.name = name;
 		this.email = email;
 	}
-	
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="tid")
@@ -35,15 +34,15 @@ public class Teacher {
     @NotNull
     @Column(name="tname")
     private String name;
-    @Email
+    
     @NotEmpty
+    @Email
     @NotNull
     @Column(name="temail")
 	private String email;
 	@ManyToMany//(mappedBy="teachers")
 	@JoinTable(name="student_teacher_mapping", joinColumns={@JoinColumn(name="tid")}, inverseJoinColumns={@JoinColumn(name="sid")})
 	private Set<Student> students;
-	
 	public Integer getId() {
 		return id;
 	}

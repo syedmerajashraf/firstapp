@@ -3,18 +3,13 @@ package com.fidelis.k2.bo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fidelis.k2.dao.StudentDao;
 import com.fidelis.k2.dao.TeacherDao;
 import com.fidelis.k2.entity.Student;
 import com.fidelis.k2.entity.Teacher;
-import com.fidelis.k2.exceptions.TeacherValidationException;
 import com.fidelis.k2.model.StudentDto;
 import com.fidelis.k2.model.TeacherDto;
 
@@ -45,10 +40,7 @@ public class TeacherBoImpl implements TeacherBo{
 			if(flag==0){
 				temp_teacher.fillTeacherData(teacher);
 				teachertobeadded.add(temp_teacher);
-				
 			}
-		 
-	     
 	     }
 		return teachertobeadded;
 	}
@@ -63,19 +55,13 @@ public class TeacherBoImpl implements TeacherBo{
     		teacherDtoList.add(teacherDto);
     	}
 		return teacherDtoList;
-		
 	}
 	@Transactional
 	@Override
-	public TeacherDto saveteacher(Teacher teacher) throws TeacherValidationException{
-		if(teacher.getName()==null||teacher.getName().isEmpty())
-			throw new TeacherValidationException("Name Is Missing");
-		else{
+	public TeacherDto saveteacher(Teacher teacher) {
 		teacherDao.save(teacher);
-		    }
 		return new TeacherDto(teacher);
 	}
-
 	@Transactional
 	@Override
 	public TeacherDto getTeacherById(int teacherId) {
@@ -84,7 +70,6 @@ public class TeacherBoImpl implements TeacherBo{
 		return teacherDto;
 		
 	}
-
 	@Transactional
 	@Override
 	public StudentDto addstudentforteacher(int studentId, int teacherId) {
@@ -95,7 +80,6 @@ public class TeacherBoImpl implements TeacherBo{
 		StudentDto studentDto=new StudentDto().fillStudentData(student);
 		return studentDto;
 	}
-
 	@Transactional
 	@Override
 	public StudentDto removestudent(int studentId, int teacherId) {

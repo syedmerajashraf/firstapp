@@ -282,7 +282,16 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 						 alert(response.name+" added");
 						 $("#slist").append($('<option></option>').val(response.id).html(response.name));
 						 form.dialog( "close" );
-					}			 
+					},
+					error: function(response){
+						//form.dialog('close');
+					    $( "#errorMessage" ).html(response.responseText);
+					    $( "#errorMessage" ).dialog();
+					    $( "#errorMessage").css("background","none repeat scroll 0 0 #808080");
+					    $( "#errorMessage").prev().children('button').css("position","absolute");
+					    $( "#errorMessage").prev().children('button').css("margin","31 239");
+					    
+					   }			 
 				 });
 				
 			} ,
@@ -329,7 +338,7 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 						    $( "#errorMessage" ).dialog();
 						    $( "#errorMessage").css("background","none repeat scroll 0 0 #808080");
 						    $( "#errorMessage").prev().children('button').css("position","absolute");
-						    $( "#errorMessage").prev().children('button').css("margin","107 116");
+						    $( "#errorMessage").prev().children('button').css("margin","31 239");
 						    
 						   }			 
 				 });

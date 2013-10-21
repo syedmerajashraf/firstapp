@@ -3,23 +3,21 @@ package com.fidelis.k2.web.controller;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.fidelis.k2.bo.StudentBo;
 import com.fidelis.k2.bo.TeacherBo;
 import com.fidelis.k2.entity.Student;
 import com.fidelis.k2.exceptions.CustomGenericException;
-import com.fidelis.k2.exceptions.TeacherValidationException;
 import com.fidelis.k2.model.StudentInfoWrapper;
 import com.fidelis.k2.model.StudentDto;
 import com.fidelis.k2.model.TeacherDto;
@@ -34,8 +32,16 @@ public class StudentController {
 	private TeacherBo teacherBo;
 	
 	@RequestMapping(value="/newstudent",method = RequestMethod.POST)
-	public @ResponseBody StudentDto savestudent(@RequestBody Student student ){
-	
+	public @ResponseBody StudentDto savestudent(@RequestBody @Valid Student student,BindingResult result ){
+		if(result.hasErrors()){
+     	   StringBuilder errorMessages = new StringBuilder();
+     	   List<FieldError> errors = result.getFieldErrors();
+     	   for (FieldError error : errors ) {
+     	      System.out.println (error.getField() + " - " + error.getDefaultMessage());
+     	      errorMessages.append(error.getField() + " - " + error.getDefaultMessage()+"\n");
+     	      throw new CustomGenericException("2", errorMessages.toString());
+     	   }
+        }
 		StudentDto studentDto=studentBo.savestudent(student);
 		return studentDto;
 	}
@@ -72,7 +78,7 @@ public class StudentController {
 	
 	
 	
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
     ResponseEntity<String> exceptionHandler(Exception ex) {
 		System.out.println("exception for super handler called");
         return new ResponseEntity<String>(
@@ -86,6 +92,6 @@ public class StudentController {
 		model.addObject("errMsg", ex.getErrMsg());
 		return model;
  
-	}
+	}*/
 
 }

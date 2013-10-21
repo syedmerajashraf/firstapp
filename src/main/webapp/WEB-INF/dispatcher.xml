@@ -94,5 +94,10 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 				</beans:property>
 			</beans:bean>
 			 -->
-
+			 <beans:bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+		         <beans:property name="basename" value="messages" />
+		     </beans:bean>
+                <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+                <beans:property name="validationMessageSource" ref="messageSource"/>
+            </beans:bean>
 </beans:beans>
