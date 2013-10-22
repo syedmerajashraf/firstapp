@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fidelis.k2.bo.StudentBo;
 import com.fidelis.k2.bo.TeacherBo;
 import com.fidelis.k2.entity.Student;
@@ -25,6 +27,7 @@ import com.fidelis.k2.model.TeacherDto;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+	private static final Logger logger = Logger.getLogger(StudentController.class);
 	
 	@Autowired
 	private StudentBo studentBo;
@@ -37,20 +40,21 @@ public class StudentController {
      	   StringBuilder errorMessages = new StringBuilder();
      	   List<FieldError> errors = result.getFieldErrors();
      	   for (FieldError error : errors ) {
-     	      System.out.println (error.getField() + " - " + error.getDefaultMessage());
-     	      errorMessages.append(error.getField() + " - " + error.getDefaultMessage()+"\n");
-     	      throw new CustomGenericException("2", errorMessages.toString());
+     		  errorMessages.append(error.getField() + " - " + error.getDefaultMessage());
+     		  errorMessages.append("<br/>");
+     	      logger.debug("The Object Student"+student+"has validation error");
      	   }
+     	      throw new CustomGenericException("2", errorMessages.toString());
+     	   
         }
 		StudentDto studentDto=studentBo.savestudent(student);
+		logger.info("Saved Student"+studentDto.getId());
 		return studentDto;
 	}
-
-
-	
 	@RequestMapping(value="/getstudent",method = RequestMethod.GET)
 	public @ResponseBody StudentInfoWrapper getstudents(@RequestParam int studentId){
 		StudentDto studentinfo= studentBo.getStudentById(studentId);
+		
 		if(studentinfo.getTeachers()==null){
 			studentinfo.setTeachers(new HashSet<TeacherDto>());
 		}
@@ -58,22 +62,21 @@ public class StudentController {
 		StudentInfoWrapper completeStudentInfo=new StudentInfoWrapper();
 		completeStudentInfo.setStudentDto(studentinfo);
 		completeStudentInfo.setTeachers_to_be_added(teacherstobeadded);
+		logger.info("Returning Complete Info For Student"+studentinfo.getId());
 		return completeStudentInfo;
 	}	
-
 	@RequestMapping(value="/removeteacher",method = RequestMethod.GET)
 	public @ResponseBody  TeacherDto removeteacher(@RequestParam int studentid,@RequestParam int teacherid){
 		TeacherDto teacherDto=studentBo.removeteacher(studentid,teacherid);
+		logger.info("Removed Teacher "+teacherid+"For Student "+studentid);
 		return teacherDto;
 	}
-
 	@RequestMapping(value="/addteacherforstudent",method = RequestMethod.GET)
 	public @ResponseBody  TeacherDto addteacherforstudent(@RequestParam int studentid,@RequestParam int teacherid){
 	     
 	    TeacherDto teacherDto= studentBo.addteacherforstudent(studentid,teacherid);
-		
+	    logger.info("Added Teacher "+teacherid+"For Student "+studentid);
 		return teacherDto;
-		
 	}
 	
 	

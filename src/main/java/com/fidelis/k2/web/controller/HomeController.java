@@ -33,10 +33,9 @@ public class HomeController {
 		List<TeacherDto> teacherDtolist=teacherBo.getAllTeachers();
 		model.addAttribute("studentlist",studentDtolist);
 		model.addAttribute("teacherlist",teacherDtolist);
-		logger.info(model+"meraj");
 		if(logger.isInfoEnabled()){
 			System.out.println("hii");
-			logger.info(model+"meraj");
+			logger.info("Returning Model With Teacher And Student Info"+model.toString());
 		}
 		return "hello";
 	}
