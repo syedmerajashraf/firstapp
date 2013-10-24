@@ -5,6 +5,8 @@
 	  <class>com.fidelis.k2.entity.Student</class>
 	  <class>com.fidelis.k2.entity.Teacher</class>
 	  <class>com.fidelis.k2.entity.Coach</class>
+	  <class>com.fidelis.k2.entity.User</class>
+	   <class>com.fidelis.k2.entity.Notification</class>
 	  <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 	  <properties>
 	   <property name="hibernate.show_sql" value="true" />
@@ -15,6 +17,7 @@
 	   <property name="hibernate.cache.provider_class" value="com.googlecode.hibernate.memcached.MemcachedCacheProvider" />
 	   <property name="hibernate.cache.use_second_level_cache" value="false" />
 	   <property name="hibernate.cache.use_query_cache" value="false" />
+	   <property name="hibernate.hbm2ddl.auto" value="update"/>
 	<!--    <property key="hibernate.connection.verifyServerCertificate">true</property>
 	   <property key="hibernate.connection.requireSSL">true</property> -->
 	   <!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->

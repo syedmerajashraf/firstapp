@@ -1,5 +1,8 @@
 package com.fidelis.k2.web.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +16,7 @@ public class GlobalExceptionController {
 	private static final Logger logger = Logger.getLogger(GlobalExceptionController.class);
 	@ExceptionHandler(CustomGenericException.class)
 	public ModelAndView handleCustomException(CustomGenericException ex) {
-		logger.info("A Custom Exception Has Been Throwm");
+		logger.info("A Custom Exception Has Been Thrown");
 		logger.error( "Error Message:"+ex.getErrMsg());
 		ModelAndView model = new ModelAndView("error");
 		model.addObject("errCode", ex.getErrCode());
@@ -23,8 +26,10 @@ public class GlobalExceptionController {
  
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleAllException(Exception ex) {
-		logger.info("A Exception Has Been Thrown");
-		logger.error( "Error Message:"+ex.getMessage()+" \tError Reason:"+ex.getCause()+"\tError Class: "+ex.getClass());
+		logger.info("An Exception Has Been Thrown");
+		StringWriter stack = new StringWriter();
+		ex.printStackTrace(new PrintWriter(stack));
+		logger.error( "Error Message:"+ex.getMessage()+" \tError Reason:"+stack.toString()+"\tError Class: "+ex.getClass());
 		ModelAndView model = new ModelAndView("error");
 		model.addObject("errMsg", "Something Is Wrong AS The Request Cant Be Completed");
 		return model;

@@ -1,12 +1,5 @@
 package com.fidelis.k2.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.fidelis.k2.entity.Coach;
-import com.fidelis.k2.entity.Student;
-import com.fidelis.k2.entity.Teacher;
-
 public class CoachDTO {
 
 	

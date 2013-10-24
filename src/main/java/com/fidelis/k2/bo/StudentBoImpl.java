@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fidelis.k2.dao.NotificationDao;
 import com.fidelis.k2.dao.StudentDao;
 import com.fidelis.k2.dao.TeacherDao;
+import com.fidelis.k2.entity.Notification;
 import com.fidelis.k2.entity.Student;
 import com.fidelis.k2.entity.Teacher;
+import com.fidelis.k2.enums.NotificationType;
 import com.fidelis.k2.model.StudentDto;
 import com.fidelis.k2.model.TeacherDto;
 
@@ -24,7 +27,10 @@ public class StudentBoImpl implements StudentBo{
 	private StudentDao studentDao;
 	@Autowired
 	private TeacherDao teacherDao;
-	
+	@Autowired
+	private NotificationDao notificationDao;
+	@Autowired
+	private NotificationManager notificationManager;
 	@Transactional
 	@Override
 	public StudentDto savestudent(Student student) {
@@ -48,17 +54,21 @@ public class StudentBoImpl implements StudentBo{
 	@Override
 	public StudentDto getStudentById(Integer studentId) {
     	Student student = studentDao.findById(studentId);
+    	List<String> notifications=notificationManager.createnotificationtext(student);
     	StudentDto studentDto = new StudentDto(student);
+    	studentDto.setNotifications(notifications);
 		return studentDto;
 	}
 
 	@Transactional
 	@Override
 	public TeacherDto addteacherforstudent(int studentId, int teacherId) {
-		
 		Student student = studentDao.findById(studentId);
 		Teacher teacher = teacherDao.findById(teacherId);
+		Notification notification=notificationManager.savenotification(student, teacher, NotificationType.StudentAddedTeacher);
 		student.addTeacher(teacher);
+		student.getNotificationsByUser().add(notification);
+		teacher.getNotificationsForUser().add(notification);
 		TeacherDto teacherDto=new TeacherDto().fillTeacherData(teacher);
 		return teacherDto;
 		
@@ -69,6 +79,9 @@ public class StudentBoImpl implements StudentBo{
 	public TeacherDto removeteacher(int studentId, int teacherId) {
 		Student student = studentDao.findById(studentId);
 		Teacher teacher = teacherDao.findById(teacherId);
+		Notification notification=notificationManager.savenotification(student, teacher, NotificationType.StudentRemovedTeacher);
+		student.getNotificationsByUser().add(notification);
+		teacher.getNotificationsForUser().add(notification);
 		student.getTeachers().remove(teacher);
 		TeacherDto teacherDto=new TeacherDto().fillTeacherData(teacher);
 		return teacherDto;
@@ -92,10 +105,7 @@ public class StudentBoImpl implements StudentBo{
 			if(flag==0){
 				temp_student.fillStudentData(student);
 				studenttobeadded.add(temp_student);
-				
 			}
-		 
-	     
 	     }
 		return studenttobeadded;
 	}

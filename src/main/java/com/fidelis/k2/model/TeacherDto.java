@@ -1,6 +1,7 @@
 package com.fidelis.k2.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fidelis.k2.entity.Student;
@@ -16,7 +17,7 @@ public class TeacherDto {
 	private String name;
 	private String email;
 	private Set<StudentDto> students;
-	
+	private List<String> notifications;
 	public Integer getId() {
 		return id;
 	}
@@ -29,6 +30,14 @@ public class TeacherDto {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public List<String> getNotifications() {
+		return notifications;
+	}
+	public void setNotifications(List<String> notifications) {
+		this.notifications = notifications;
+	}
+	
 	public String getEmail() {
 		return email;
 	}

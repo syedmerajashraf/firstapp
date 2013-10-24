@@ -2,6 +2,7 @@ package com.fidelis.k2.exceptions;
 
 public class TeacherValidationException extends Exception {
 
+	
 	private String message = null;
 	public TeacherValidationException() {
 		super();

@@ -30,7 +30,7 @@ public abstract class BaseDaoImpl<T>  implements BaseDao<T>{
 		return entityManager.merge(entity);
 	}
 
-	@Transactional
+	//@Transactional
 	@Override
 	public void save(Collection<T> entities){
 		for(T entity : entities){
@@ -38,7 +38,7 @@ public abstract class BaseDaoImpl<T>  implements BaseDao<T>{
 		}
 	}
 
-	@Transactional
+	//@Transactional
 	@Override
 	public void save(T entity) {
 		entityManager.persist(entity);

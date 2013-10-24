@@ -49,7 +49,7 @@ public class TeacherController {
                }
 		TeacherDto addedteacher=null;
 	    addedteacher = teacherBo.saveteacher(teacher);
-	    logger.info("Saved Teacher"+addedteacher.getId());
+	    logger.info("Saved Teacher with id "+addedteacher.getId());
 		return addedteacher;
 	}
 	
@@ -63,19 +63,19 @@ public class TeacherController {
 		TeacherInfoWrapper completeTeacherInfo=new TeacherInfoWrapper();
 		completeTeacherInfo.setTeacherDto(teacherinfo);
 		completeTeacherInfo.setStudents_to_be_added(studentstobeadded);
-		logger.info("Returning CompleteTeacherInfo For"+teacherinfo.getId());
+		logger.info("Returning CompleteTeacherInfo For Teacher with id "+teacherinfo.getId());
 		return completeTeacherInfo;
 	}	
 	@RequestMapping(value="/addstudentforteacher",method = RequestMethod.GET)
 	public @ResponseBody  StudentDto addstudentforteacher(@RequestParam int studentid,@RequestParam int teacherid){
 	    StudentDto studentDto= teacherBo.addstudentforteacher(studentid,teacherid);
-	    logger.info("Added Student "+studentid+" For Teacher"+teacherid);
+	    logger.info("Added Student id "+studentid+" For Teacher id "+teacherid);
 		return studentDto;
 	}
 	@RequestMapping(value="/removestudent",method = RequestMethod.GET)
 	public @ResponseBody  StudentDto removestudent(@RequestParam int studentid,@RequestParam int teacherid){
 		StudentDto studentDto=teacherBo.removestudent(studentid,teacherid);
-		logger.info("Reamoved Student "+studentid+" For Teacher"+teacherid);
+		logger.info("Reamoved Student id "+studentid+" For Teacher id "+teacherid);
 		return studentDto;
 	}
 }

@@ -94,6 +94,10 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 								<table id="studenttobeadded">
 				
 								</table>
+								<table id="teachernotification">
+									
+									
+								</table>
 					</div>
                 </div>
                 <div id="student">
@@ -125,6 +129,12 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 								<table id="teachertobeadded">
 				
 								</table>
+								
+								<table id="studentnotification">
+									
+									
+								</table>
+								
 					</div>
 		     </div>
 		     <div id="coach">
@@ -444,7 +454,12 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 								           tr.append("<td><a name=\"add_teacher\" href='#'>Add</a></td>");
 								           $('#teachertobeadded').append(tr);
 								       } 
-										
+								       $("#studentnotification").empty();
+								       $("#studentnotification").append("<th>Your Notifications</th>")
+								       for (var i = 0; i < data.studentDto.notifications.length; i++) {
+								    	   var html="<tr><td>" + data.studentDto.notifications[i] + "</td></tr>";
+								           $('#studentnotification').append(html);
+								       } 
 						});
 						
 	});
@@ -477,18 +492,22 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 					     
 		
 				        $('#studenttobeadded').empty();
-				       $('#studenttobeadded').append("<th>ID</th><th>Name</th><th>Email</th>");
+				        $('#studenttobeadded').append("<th>ID</th><th>Name</th><th>Email</th>");
 				      
 				       for (var i = 0; i < data.students_to_be_added.length; i++) {
 				      	   tr = $('<tr/>');
-				      	   
 				      	   tr.append("<td>" + data.students_to_be_added[i].id + "</td>");
 				           tr.append("<td>" + data.students_to_be_added[i].name + "</td>");
 				           tr.append("<td>" + data.students_to_be_added[i].email + "</td>");
 				           tr.append("<td><a name=\"add_student\" href='#'>Add</a></td>");
 				           $('#studenttobeadded').append(tr);
 				       }  
-		
+				       $("#teachernotification").empty();
+				       $("#teachernotification").append("<th>Your Notifications</th>")
+				       for (var i = 0; i < data.teacherDto.notifications.length; i++) {
+				    	  var html="<tr><td>" + data.teacherDto.notifications[i] + "</td></tr>";
+				           $('#teachernotification').append(html);
+				       } 
 					
 		});
 		
